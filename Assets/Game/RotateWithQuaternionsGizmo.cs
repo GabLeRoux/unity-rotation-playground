@@ -1,0 +1,103 @@
+using UnityEngine;
+
+using NaughtyAttributes;
+using UnityEditor;
+
+namespace Game
+{
+    public class RotateWithQuaternionsGizmo : MonoBehaviour
+    {
+        [SerializeField] private Vector3 _rotationAxis = Vector3.up;
+        [SerializeField] private float _rotationSpeed = 1f;
+        [SerializeField] private float _rotationAngle = 0f;
+        
+        [SerializeField] private bool _showGizmo = true;
+        [SerializeField] private Color _gizmoColor = Color.green;
+        [SerializeField] private float _gizmoSize = 1f;
+        
+        [SerializeField] private bool _showRotationAxis = true;
+        [SerializeField] private Color _rotationAxisColor = Color.red;
+        [SerializeField] private float _rotationAxisSize = 1f;
+        
+        [SerializeField] private bool _showRotationAngle = true;
+        [SerializeField] private Color _rotationAngleColor = Color.blue;
+        [SerializeField] private float _rotationAngleSize = 1f;
+       
+        [SerializeField] private bool _showRotationAngleText = true;
+        [SerializeField] private Color _rotationAngleTextColor = Color.white;
+        [SerializeField] private float _rotationAngleTextSize = 1f;
+        
+        private void Update()
+        {
+            _rotationAngle += _rotationSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.AngleAxis(_rotationAngle, _rotationAxis);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            if (!_showGizmo)
+            {
+                return;
+            }
+            
+            Gizmos.color = _gizmoColor;
+            Gizmos.DrawWireSphere(transform.position, _gizmoSize);
+            
+            if (_showRotationAxis)
+            {
+                Gizmos.color = _rotationAxisColor;
+                Gizmos.DrawLine(transform.position, transform.position + _rotationAxis * _rotationAxisSize);
+            }
+            
+            if (_showRotationAngle)
+            {
+                Gizmos.color = _rotationAngleColor;
+                Gizmos.DrawLine(transform.position, transform.position + transform.forward * _rotationAngleSize);
+            }
+            
+            if (_showRotationAngleText)
+            {
+                var transform1 = transform;
+                Handles.Label(transform1.position + transform1.forward * _rotationAngleTextSize, _rotationAngle.ToString("F2"), new GUIStyle {normal = new GUIStyleState {textColor = _rotationAngleTextColor}});
+            }
+        }
+        
+        private void OnValidate()
+        {
+            _rotationAxis = _rotationAxis.normalized;
+        }
+        
+        [Button]
+        private void ResetRotationAngle()
+        {
+            _rotationAngle = 0f;
+        }
+        
+        [Button]
+        private void ResetRotationSpeed()
+        {
+            _rotationSpeed = 1f;
+        }
+        
+        [Button]
+        private void ResetRotationAxis()
+        {
+            _rotationAxis = Vector3.up;
+        }
+        
+        [Button]
+        private void ResetGizmoSize()
+        {
+            _gizmoSize = 1f;
+        }
+
+        [Button]
+        private void ResetAll()
+        {
+            ResetRotationAngle();
+            ResetRotationSpeed();
+            ResetRotationAxis();
+            ResetGizmoSize();
+        }
+    }
+}
