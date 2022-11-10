@@ -41,7 +41,8 @@ jobs:
           name: ${{ matrix.targetPlatform }} Build
           path: build/${{ matrix.targetPlatform }}/
   deployWebGLToGithubPages:
+    steps:
      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build/WebGL
+       uses: JamesIves/github-pages-deploy-action@v4
+       with:
+         folder: build/WebGL
