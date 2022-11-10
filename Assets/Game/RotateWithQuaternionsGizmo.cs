@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using NaughtyAttributes;
-using UnityEditor;
 
 namespace Game
 {
@@ -22,11 +21,7 @@ namespace Game
         [SerializeField] private bool _showRotationAngle = true;
         [SerializeField] private Color _rotationAngleColor = Color.blue;
         [SerializeField] private float _rotationAngleSize = 1f;
-       
-        [SerializeField] private bool _showRotationAngleText = true;
-        [SerializeField] private Color _rotationAngleTextColor = Color.white;
-        [SerializeField] private float _rotationAngleTextSize = 1f;
-        
+
         private void Update()
         {
             _rotationAngle += _rotationSpeed * Time.deltaTime;
@@ -53,12 +48,6 @@ namespace Game
             {
                 Gizmos.color = _rotationAngleColor;
                 Gizmos.DrawLine(transform.position, transform.position + transform.forward * _rotationAngleSize);
-            }
-            
-            if (_showRotationAngleText)
-            {
-                var transform1 = transform;
-                Handles.Label(transform1.position + transform1.forward * _rotationAngleTextSize, _rotationAngle.ToString("F2"), new GUIStyle {normal = new GUIStyleState {textColor = _rotationAngleTextColor}});
             }
         }
         
