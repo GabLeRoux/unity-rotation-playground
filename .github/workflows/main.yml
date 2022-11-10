@@ -41,7 +41,14 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }} Build
           path: build/${{ matrix.targetPlatform }}/
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - if: matrix.targetPlatform == 'WebGL'
+        uses:
+          peaceiris/actions-gh-pages@v3
         with:
-          folder: build/WebGL
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/${{ matrix.targetPlatform }}/
+          publish_branch: gh-pages
+          cname: ${{ github.repository }}.github.io
+          keep_files: true
+          user_name: github-actions
+          user_email: lebreton.gabriel@gmail.com
