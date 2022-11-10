@@ -1,6 +1,6 @@
 name: Actions 😎
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   buildForLinuxBasedPlatforms:
@@ -47,7 +47,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/${{ matrix.targetPlatform }}/
           publish_branch: gh-pages
-          cname: ${{ github.repository }}.github.io
-          keep_files: true
-          user_name: github-actions
-          user_email: lebreton.gabriel@gmail.com
